@@ -2,6 +2,7 @@
 
 import time
 import datetime
+from pathlib import Path
 
 import dirmanage
 from src.utilities import read_json_file
@@ -20,7 +21,7 @@ def show_event(event):
 
 def do_work():
     """Do the work."""
-    agenda_file = dirmanage.base_dir / "agenda.json"
+    agenda_file = Path.home() / "agenda.json"
     agenda = read_json_file(agenda_file)
     done_events = False
     for event in agenda:
@@ -32,6 +33,8 @@ def do_work():
         if now > exp_timestamp:
             show_event(event)
             print("nvim ", agenda_file.resolve())
+            journal_file = Path.home() / "Documents_sources/journal/journal.md"
+            print(f"nvim {journal_file}")
             done_events = True
 
     if not done_events:
