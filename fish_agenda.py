@@ -19,18 +19,34 @@ def show_event(event):
     print("=\n" * 5)
 
 
+def get_exp_ts(event) -> float:
+    """Return the timestamp of the event."""
+    json_date = event["date"]
+    exp_datetime = datetime.datetime(**json_date)
+    base_timestamp = exp_datetime.timestamp()
+    exp_ts = base_timestamp
+
+    add_to_date = event.get("add_to_date", {})
+
+    days = add_to_date.get("days", 0)
+    exp_ts = exp_ts + 24*3600 * days
+
+    weeks = add_to_date.get("weeks", 0)
+    exp_ts = exp_ts + 24*3600*7 * weeks
+
+    return exp_ts
+
+
 def do_work():
     """Do the work."""
     agenda_file = Path.home() / "agenda.json"
     agenda = read_json_file(agenda_file)
     done_events = False
     for event in agenda:
-        json_date = event["date"]
-        exp_datetime = datetime.datetime(**json_date)
-        exp_timestamp = exp_datetime.timestamp()
         now = time.time()
+        exp_ts = get_exp_ts(event)
 
-        if now > exp_timestamp:
+        if now > exp_ts:
             show_event(event)
             print("nvim ", agenda_file.resolve())
             journal_file = Path.home() / "Documents_sources/journal/journal.md"
