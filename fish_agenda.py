@@ -6,6 +6,7 @@ from pathlib import Path
 
 import dirmanage
 from src.utilities import read_json_file
+from src.utilities import write_json_file
 _ = dirmanage
 
 
@@ -42,9 +43,11 @@ def do_work():
     agenda_file = Path.home() / "agenda.json"
     agenda = read_json_file(agenda_file)
     done_events = False
+    ts_to_event: dict[float, dict] = {}
     for event in agenda:
         now = time.time()
         exp_ts = get_exp_ts(event)
+        ts_to_event[exp_ts] = event
 
         if now > exp_ts:
             show_event(event)
@@ -55,6 +58,10 @@ def do_work():
 
     if not done_events:
         print("On y va!")
+
+    ts_to_event = dict(sorted(ts_to_event.items()))
+    re_events = list(ts_to_event.values())
+    write_json_file(re_events, agenda_file, pretty=True)
 
 
 do_work()
