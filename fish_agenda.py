@@ -3,14 +3,12 @@
 import time
 import datetime
 from pathlib import Path
+from dateutil.relativedelta import relativedelta        # type:ignore
 
 import dirmanage
 from src.utilities import read_json_file
 from src.utilities import write_json_file
 _ = dirmanage
-
-
-dprint = print
 
 
 def show_event(event):
@@ -24,18 +22,10 @@ def get_exp_ts(event) -> float:
     """Return the timestamp of the event."""
     json_date = event["date"]
     exp_datetime = datetime.datetime(**json_date)
-    base_timestamp = exp_datetime.timestamp()
-    exp_ts = base_timestamp
-
-    add_to_date = event.get("add_to_date", {})
-
-    days = add_to_date.get("days", 0)
-    exp_ts = exp_ts + 24*3600 * days
-
-    weeks = add_to_date.get("weeks", 0)
-    exp_ts = exp_ts + 24*3600*7 * weeks
-
-    return exp_ts
+    json_delta = event.get("add_to_date", {})
+    delta = relativedelta(**json_delta)
+    exp_date = exp_datetime + delta
+    return exp_date.timestamp()
 
 
 def do_work():
