@@ -28,6 +28,13 @@ def get_exp_ts(event) -> float:
     return exp_date.timestamp()
 
 
+def rewrite_sorted(ts_to_event: dict[float, dict], agenda_file: Path):
+    """Rewrite the agenda file with sorted events."""
+    ts_to_event = dict(sorted(ts_to_event.items()))
+    re_events = list(ts_to_event.values())
+    write_json_file(re_events, agenda_file, pretty=True)
+
+
 def do_work():
     """Do the work."""
     agenda_file = Path.home() / "agenda.json"
@@ -49,9 +56,7 @@ def do_work():
     if not done_events:
         print("On y va!")
 
-    ts_to_event = dict(sorted(ts_to_event.items()))
-    re_events = list(ts_to_event.values())
-    write_json_file(re_events, agenda_file, pretty=True)
+    # rewrite_sorted(ts_to_event, agenda_file)
 
 
 do_work()
