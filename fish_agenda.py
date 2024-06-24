@@ -5,7 +5,6 @@ import time
 
 import dirmanage
 
-from dateutil.relativedelta import relativedelta        # type:ignore
 
 from src.agenda import Agenda
 _ = dirmanage
