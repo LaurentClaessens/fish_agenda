@@ -23,6 +23,12 @@ def get_exp_ts(event: dict) -> float:
     json_delta = event.get("add_to_date", {})
     delta = relativedelta(**json_delta)
     exp_date = exp_datetime + delta
+
+    if event.get("done", False):
+        # Never show the events that are done, and sort them
+        # on the bottom of the list
+        exp_date += datetime.timedelta(weeks=1000)
+
     return exp_date.timestamp()
 
 
