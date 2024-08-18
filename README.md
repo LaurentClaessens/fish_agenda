@@ -92,3 +92,20 @@ August 19 2024 is a Monday. Each week I have the recall and I add 1 to the "add 
 ```
 
 Add the line `"done": true` and the event will not be displayed. The events with `done:true` will be sorted at the end of the json file.
+
+
+## Why fish ?
+
+This script name is `fish_agenda`. Why ?
+
+Because my file `~/.config/fish/config.fish` (equivalent to `.bashrc`) ends with
+
+```
+function fish_greeting
+    /path/to/fish_agenda/fish_agenda.py /path/to/agenda.json
+end
+
+funcsave fish_greeting
+```
+
+Thus I see the events when I open a terminal. This is anough recalls.
