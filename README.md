@@ -109,3 +109,24 @@ funcsave fish_greeting
 ```
 
 Thus I see the events when I open a terminal. This is anough recalls.
+
+## Install
+
+### If you already have `pyenv`.
+
+Just run 
+```
+./make_venv.sh
+```
+It will search for python 3.10.6 in `$HOME/.pyenv/versions`
+
+### If you do not have `pyenv`.
+
+The script `make_venv.sh` will download and compile the right version of python for you.
+
+Adapt the line 
+
+```
+PYENV_DIR=$HOME/.pyenv
+```
+if you want to install in another directory.
