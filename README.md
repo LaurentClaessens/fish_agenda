@@ -130,3 +130,11 @@ Adapt the line
 PYENV_DIR=$HOME/.pyenv
 ```
 if you want to install in another directory.
+
+### If you want to use `new_event.py`
+
+This is a graphical interface (tkinter) for creating a new event. You need python to be compiled with tk support.
+```
+sudo apt install  build-essential zlib1g-dev libffi-dev libssl-dev libreadline-dev libsqlite3-dev liblzma-dev libbz2-dev libncurses-dev tk-dev
+```
+Then (re)install the python version in pyenv.
