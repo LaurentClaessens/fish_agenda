@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 from typing import Union
+from typing import Any
 
 import contextlib
 
@@ -45,6 +46,12 @@ def json_to_str(json_dict, pretty=False, ensure_ascii=True):
                           default=json_serial,
                           ensure_ascii=False)
     return json.dumps(json_dict, default=json_serial, ensure_ascii=ensure_ascii)
+
+
+def print_json(json_obj: Any):
+    """Print the given json."""
+    my_str = json_to_str(json_obj, pretty=True)
+    print(my_str)
 
 
 def write_json_file(json_dict,
