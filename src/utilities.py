@@ -1,11 +1,71 @@
+from src.stubs.stubs import PathOrStr
+import requests
+from colorama import Fore, Back, Style
 import json
 from pathlib import Path
 from typing import Union
 from typing import Any
 
+import random
+import string
 import contextlib
 
 PathOrStr = Union[Path, str]
+
+
+class ColorOutput:
+    """Colored output"""
+
+    def __init__(self, fg: Optional[str] = None, bg: Optional[str] = None):
+        """Initialize."""
+        self.fg = fg
+        self.bg = bg
+
+    def __exit__(self, *args):
+        """Reset all the colors"""
+        _ = args
+        print(Style.RESET_ALL, end="\r")
+
+    def __enter__(self):
+        """Initiate the requested color."""
+        fg_correspondance = {
+            "black": Fore.BLACK,
+            "red": Fore.RED,
+            "green": Fore.GREEN,
+            "yellow": Fore.YELLOW,
+            "blue": Fore.BLUE,
+            "magenta": Fore.MAGENTA,
+            "cyan": Fore.CYAN,
+            "white": Fore.WHITE
+        }
+        bg_correspondance = {
+            "black": Back.BLACK,
+            "red": Back.RED,
+            "green": Back.GREEN,
+            "yellow": Back.YELLOW,
+            "blue": Back.BLUE,
+            "magenta": Back.MAGENTA,
+            "cyan": Back.CYAN,
+            "white": Back.WHITE}
+
+        if self.fg:
+            print(fg_correspondance[self.fg], end="\r")
+        if self.bg:
+            print(bg_correspondance[self.bg], end="\r")
+
+    def __call__(self, fun):
+        """Turn the color outpus to a context manager"""
+        def wrapper(*args, **kwargs):
+            """Wrap the function."""
+            with self:
+                return fun(*args, **kwargs)
+        return wrapper
+
+
+def random_string(length):
+    """Return a random string of letters of the given length."""
+    rn_list = [random.choice(string.ascii_letters) for _ in range(1, length)]
+    return "".join(rn_list)
 
 
 def read_json_file(json_path: PathOrStr, default=None):

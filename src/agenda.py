@@ -20,7 +20,7 @@ class Agenda:
     def _get_events(self):
         """Return the list of events."""
         j_agenda = read_json_file(self.filepath)
-        return [Event(j_event) for j_event in j_agenda]
+        return [Event(self, j_event) for j_event in j_agenda]
 
     def add_envent(self, date: datetime.datetime, text: str):
         """Add an event to the agenda."""
@@ -40,7 +40,7 @@ class Agenda:
             "text": text,
             "done": False
         }
-        event = Event(j_event)
+        event = Event(self, j_event)
         self.events.append(event)
 
     def rewrite_sorted(self):
@@ -49,6 +49,13 @@ class Agenda:
         events.sort(key=lambda x: x.exp_ts)
         j_events = [event.to_json() for event in events]
         write_json_file(j_events, self.filepath, pretty=True)
+
+    def get_event(self, ident: str) -> Event:
+        """Return the event with given ident."""
+        for event in self.events:
+            if event.ident == ident:
+                return event
+        raise NameError(f"No event with ident: {ident}")
 
     def __getitem__(self, index: int):
         return self.events[index]

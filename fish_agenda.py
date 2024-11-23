@@ -7,14 +7,22 @@ import dirmanage
 
 
 from src.agenda import Agenda
+from src.event import Event
 _ = dirmanage
 
 
-def show_event(event):
+def show_event(event: Event):
     """Show the event text."""
     print("=\n" * 5)
     print(event.text, "\n")
     print("=\n" * 5)
+    if not event.reccurence:
+        return
+    ident = event.ident
+    script_path = dirmanage.init_dir / "apply_reccursion.py"
+    agenda_path = event.agenda.filepath
+    command = f"{script_path} {agenda_path} {ident}"
+    print(command)
 
 
 def do_work():
