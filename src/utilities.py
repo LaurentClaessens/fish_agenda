@@ -1,14 +1,14 @@
-from src.stubs.stubs import PathOrStr
-import requests
-from colorama import Fore, Back, Style
 import json
+from typing import Any
 from pathlib import Path
 from typing import Union
-from typing import Any
+from typing import Optional
+from colorama import Fore, Back, Style
 
 import random
 import string
 import contextlib
+
 
 PathOrStr = Union[Path, str]
 

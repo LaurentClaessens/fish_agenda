@@ -6,15 +6,17 @@ import time
 import dirmanage
 
 
-from src.agenda import Agenda
 from src.event import Event
+from src.agenda import Agenda
+from src.utilities import ColorOutput
 _ = dirmanage
 
 
 def show_event(event: Event):
     """Show the event text."""
     print("=\n" * 5)
-    print(event.text, "\n")
+    with ColorOutput("green"):
+        print(event.text, "\n")
     print("=\n" * 5)
     if not event.reccurence:
         return
