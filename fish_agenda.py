@@ -5,7 +5,6 @@ import time
 
 import dirmanage
 
-
 from src.event import Event
 from src.agenda import Agenda
 from src.utilities import ColorOutput
@@ -14,14 +13,14 @@ _ = dirmanage
 
 def show_event(event: Event):
     """Show the event text."""
-    print("=\n" * 5)
+    #print("=\n" * 1)
     with ColorOutput("green"):
         print(event.text, "\n")
-    print("=\n" * 5)
+    #print("=\n" * 1)
     if not event.reccurence:
         return
     ident = event.ident
-    script_path = dirmanage.init_dir / "apply_reccursion.py"
+    script_path = dirmanage.base_dir / "apply_reccursion.py"
     agenda_path = event.agenda.filepath
     command = f"{script_path} {agenda_path} {ident}"
     print(command)
