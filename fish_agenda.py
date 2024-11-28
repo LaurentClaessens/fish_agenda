@@ -16,13 +16,14 @@ def show_event(event: Event):
     ident = event.ident
     agenda_path = event.agenda.filepath
     with ColorOutput("green"):
-        print(event.text, "\n")
+        print(event.text)
     if not event.reccurence:
         script_path = dirmanage.base_dir / "mark_as_done.py"
     else:
         script_path = dirmanage.base_dir / "apply_reccursion.py"
     command = f"{script_path} {agenda_path} {ident}"
     print(command)
+    print("")
 
 
 def do_work():
@@ -36,10 +37,11 @@ def do_work():
 
         if now > event.exp_ts:
             show_event(event)
-            print(f"nvim {agenda.filepath}")
             one_done = True
 
-    if not one_done:
+    if one_done:
+        print(f"nvim {agenda.filepath}")
+    else:
         print("On y va!")
 
 
