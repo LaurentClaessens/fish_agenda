@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-"""Add some weeks/days to the event."""
+"""Mark the event as done."""
 
 import sys
 
@@ -13,7 +13,7 @@ def do_work():
     filename = sys.argv[1]
     agenda = Agenda(filename)
     event = agenda.get_event(ident)
-    event.apply_reccursion()
+    event.mark_as_done()
     agenda.rewrite_sorted()
 
 

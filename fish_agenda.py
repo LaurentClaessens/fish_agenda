@@ -13,15 +13,14 @@ _ = dirmanage
 
 def show_event(event: Event):
     """Show the event text."""
-    #print("=\n" * 1)
+    ident = event.ident
+    agenda_path = event.agenda.filepath
     with ColorOutput("green"):
         print(event.text, "\n")
-    #print("=\n" * 1)
     if not event.reccurence:
-        return
-    ident = event.ident
-    script_path = dirmanage.base_dir / "apply_reccursion.py"
-    agenda_path = event.agenda.filepath
+        script_path = dirmanage.base_dir / "mark_as_done.py"
+    else:
+        script_path = dirmanage.base_dir / "apply_reccursion.py"
     command = f"{script_path} {agenda_path} {ident}"
     print(command)
 

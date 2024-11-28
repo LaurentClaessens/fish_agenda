@@ -30,6 +30,10 @@ class Event:
         self.j_event["ident"] = ident
         return ident
 
+    def mark_as_done(self):
+        """Pass the 'done' to true."""
+        self.j_event["done"] = True
+
     def apply_reccursion(self):
         """Add to the date the reccursion time."""
         add_to: dict[str, int] = self.j_event["add_to_date"]
