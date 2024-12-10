@@ -40,6 +40,7 @@ def do_work():
             one_done = True
 
     if one_done:
+        print(f"cd {dirmanage.base_dir}")
         print(f"nvim {agenda.filepath}")
     else:
         print("On y va!")
