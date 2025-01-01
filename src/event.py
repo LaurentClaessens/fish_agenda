@@ -36,7 +36,7 @@ class Event:
 
     def apply_reccursion(self):
         """Add to the date the reccursion time."""
-        add_to: dict[str, int] = self.j_event["add_to_date"]
+        add_to: dict[str, int] = self.j_event.get("add_to_date", {})
         all_keys = list(self.reccurence.keys()) + list(add_to.keys())
         new_add_to: dict[str, int] = {}
         for key in all_keys:
