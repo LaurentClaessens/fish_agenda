@@ -8,6 +8,8 @@ import tkinter as tk
 from tkcalendar import DateEntry
 
 from src.agenda import Agenda
+from src.utilities import ciao
+_ = ciao
 
 
 class UserDateChooser:
@@ -50,19 +52,40 @@ class UserDateChooser:
         return self.selected
 
 
+def get_user_int(query: str) -> int:
+    """Ask the user an integer."""
+    s_ans = input(query)
+    if s_ans == "":
+        return 0
+    return int(s_ans)
+
+
 def do_work():
     filename = sys.argv[1]
     agenda = Agenda(filename)
+
+    text = input("Your text: ")
+    print(text)
+
     sel_date = UserDateChooser().get_date()
     year = sel_date.year
     month = sel_date.month
     day = sel_date.day
     print(year, month, day)
 
-    text = input("Your text: ")
-    print(text)
+    print("récurrences : ")
+    r_days = get_user_int("  jours     : ")
+    r_weeks = get_user_int("  semaines : ")
+    r_months = get_user_int("   mois : ")
+    dict_rec = {
+        "days": r_days,
+        "weeks": r_weeks,
+        "months": r_months
+    }
+    dict_rec = {key: value for key, value in dict_rec.items()
+                if value != 0}
 
-    agenda.add_envent(sel_date, text)
+    agenda.add_envent(sel_date, dict_rec, text)
     agenda.rewrite_sorted()
 
 
