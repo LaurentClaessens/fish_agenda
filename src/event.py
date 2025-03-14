@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING
 
 from src.utilities_b import get_exp_ts
 from src.utilities import random_string
+from src.utilities import human_timestamp
 
 if TYPE_CHECKING:
     from src.agenda import Agenda
@@ -21,14 +22,19 @@ class Event:
         self.text = self.j_event['text']
         self.ident = self.get_ident()
         self.reccurence: dict[str, int] = self.j_event.get("reccurence", {})
+        self.human_next: str
+        self.set_other_properties()
+
+    def set_other_properties(self):
+        """Set some properties that may not be in the j_event."""
+        self.j_event["ident"] = self.get_ident()
+        self.j_event["human_next"] = human_timestamp(self.exp_ts)
 
     def get_ident(self):
         """Return an ident for the event."""
         if "ident" in self.j_event:
             return self.j_event["ident"]
-        ident = random_string(10)
-        self.j_event["ident"] = ident
-        return ident
+        return random_string(10)
 
     def mark_as_done(self):
         """Pass the 'done' to true."""
