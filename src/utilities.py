@@ -1,4 +1,7 @@
+import sys
 import json
+import time
+import inspect
 from typing import Any
 from pathlib import Path
 from typing import Union
@@ -126,3 +129,29 @@ def write_json_file(json_dict,
     my_str = json_to_str(json_dict, pretty=pretty)
 
     filename.write_text(my_str)
+
+
+def ciao(message=None, color=None):
+    """For debug only."""
+    if color is None:
+        color = "yellow"
+    if message:
+        with ColorOutput("yellow"):
+            print("\n", message, "\n")
+    x = random.random()
+    if x > 3:
+        return "pas possible"
+
+    current_frame = inspect.stack()[1]
+    current_file = Path(current_frame[1]).resolve()
+    current_line = current_frame[2]
+    print(f"{current_file}, line {current_line} --> ciao !")
+    sys.exit(1)
+
+
+def human_timestamp(now=None):
+    """Return a human readable timestamp."""
+    if now is None:
+        now = time.time()
+    local_time = time.localtime(now)
+    return time.strftime("%Z - %A  %Y/%B/%d, %H:%M:%S", local_time)

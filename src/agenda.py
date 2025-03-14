@@ -22,7 +22,10 @@ class Agenda:
         j_agenda = read_json_file(self.filepath)
         return [Event(self, j_event) for j_event in j_agenda]
 
-    def add_envent(self, date: datetime.datetime, text: str):
+    def add_envent(self,
+                   date: datetime.datetime,
+                   dict_rec: dict[str, int],
+                   text: str):
         """Add an event to the agenda."""
         j_event = {
             "date": {
@@ -37,6 +40,7 @@ class Agenda:
                 "days": 0,
                 "weeks": 0
             },
+            "reccurence": dict_rec,
             "text": text,
             "done": False
         }
