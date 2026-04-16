@@ -35,7 +35,7 @@ def do_work():
     for event in agenda:
         now = time.time()
 
-        if now > event.exp_ts:
+        if now > event.next_trigger_ts():
             show_event(event)
             one_done = True
 

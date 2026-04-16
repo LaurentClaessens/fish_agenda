@@ -3,8 +3,9 @@
 
 from typing import Any
 from typing import TYPE_CHECKING
+import datetime
+from dateutil.relativedelta import relativedelta        # type:ignore
 
-from src.utilities_b import get_exp_ts
 from src.utilities import random_string
 from src.utilities import human_timestamp
 
@@ -18,17 +19,31 @@ class Event:
         """Initialize."""
         self.agenda = agenda
         self.j_event = j_event
-        self.exp_ts = get_exp_ts(self.j_event)
         self.text = self.j_event['text']
         self.ident = self.get_ident()
         self.reccurence: dict[str, int] = self.j_event.get("reccurence", {})
         self.human_next: str
         self.set_other_properties()
+        
+    def next_trigger_ts(self):
+        """Return the timestamp of the event."""
+        json_date = self.j_event["date"]
+        exp_datetime = datetime.datetime(**json_date)
+        json_delta = self.j_event.get("add_to_date", {})
+        delta = relativedelta(**json_delta)
+        exp_date = exp_datetime + delta
+
+        if self.j_event.get("done", False):
+            # Never show the events that are done, and sort them
+            # on the bottom of the list
+            exp_date += datetime.timedelta(weeks=1000)
+
+        return exp_date.timestamp()
 
     def set_other_properties(self):
         """Set some properties that may not be in the j_event."""
         self.j_event["ident"] = self.get_ident()
-        self.j_event["human_next"] = human_timestamp(self.exp_ts)
+        self.j_event["human_next"] = human_timestamp(self.next_trigger_ts())
 
     def get_ident(self):
         """Return an ident for the event."""

@@ -50,7 +50,7 @@ class Agenda:
     def rewrite_sorted(self):
         """Rewrite the file."""
         events = self.events
-        events.sort(key=lambda x: x.exp_ts)
+        events.sort(key=lambda x: x.next_trigger_ts())
         j_events = [event.to_json() for event in events]
         write_json_file(j_events, self.filepath, pretty=True)
 

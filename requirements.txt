@@ -1,3 +1,4 @@
 colorama
 tkcalendar
 python-dateutil
+pyright

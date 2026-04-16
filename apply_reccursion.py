@@ -3,6 +3,7 @@
 """Add some weeks/days to the event."""
 
 import sys
+import time
 
 from src.agenda import Agenda
 
@@ -13,7 +14,8 @@ def do_work():
     filename = sys.argv[1]
     agenda = Agenda(filename)
     event = agenda.get_event(ident)
-    event.apply_reccursion()
+    while event.next_trigger_ts() < time.time() :
+        event.apply_reccursion()
     agenda.rewrite_sorted()
 
 
